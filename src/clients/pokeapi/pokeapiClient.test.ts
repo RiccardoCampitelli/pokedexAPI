@@ -2,24 +2,9 @@ import { fetchPokemon } from "./pokeapiClient";
 import { FetchPokemonFailure, Pokemon } from "./types";
 
 import { Result } from "src/utility";
+import { defaultPokeApiResponse, mappedResponse } from "src/__fixtures__";
 
 import nock from "nock";
-
-const defaultPokeApiResponse = {
-  habitat: {
-    name: "forest",
-  },
-  is_legendary: false,
-  name: "pikachu",
-  flavor_text_entries: [
-    {
-      flavor_text: "hello",
-      language: {
-        name: "en",
-      },
-    },
-  ],
-};
 
 describe("pokeapiClient", () => {
   describe("Given a 200 response from the pokeapi", () => {
@@ -41,14 +26,7 @@ describe("pokeapiClient", () => {
       });
 
       test("Then success should be mapped correctly", () => {
-        const expectedResponse: Pokemon = {
-          description: "hello",
-          habitat: "forest",
-          isLegendary: false,
-          name: "pikachu",
-        };
-
-        expect(response.success).toEqual(expectedResponse);
+        expect(response.success).toEqual(mappedResponse);
       });
     });
   });
@@ -68,7 +46,6 @@ describe("pokeapiClient", () => {
       });
 
       test("Then response should not be success", () => {
-        console.log(response);
         expect(response.isSuccess).toBe(false);
       });
 

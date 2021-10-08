@@ -11,6 +11,7 @@ export const fetchPokemon = async (
     const response = await axios.get<PokemonApiResponse>(
       `https://pokeapi.co/api/v2/pokemon-species/${pokemonName}`
     );
+
     return new Result<Pokemon, FetchPokemonFailure>({
       success: mapResult(response.data),
     });
