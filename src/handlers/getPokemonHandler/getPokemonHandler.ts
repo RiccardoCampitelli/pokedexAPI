@@ -1,4 +1,4 @@
-import { fetchPokemon, Pokemon } from "src/clients";
+import { fetchPokemon, FetchPokemonFailure, Pokemon } from "src/clients";
 import { Result } from "src/utility";
 
 export enum GetPokemonFailure {
@@ -12,11 +12,18 @@ export const getPokemonHandler = async (
 
   if (getPokemonResult.isSuccess === false) {
     return new Result<Pokemon, GetPokemonFailure>({
-      failure: GetPokemonFailure.NotFound,
+      failure: mapFailures(getPokemonResult.failure),
     });
   }
 
   return new Result<Pokemon, GetPokemonFailure>({
-    success: getPokemonResult.success as Pokemon,
+    success: getPokemonResult.success,
   });
+};
+
+const mapFailures = (fetchPokemonFailure: FetchPokemonFailure) => {
+  switch (fetchPokemonFailure) {
+    case FetchPokemonFailure.NotFound:
+      return GetPokemonFailure.NotFound;
+  }
 };

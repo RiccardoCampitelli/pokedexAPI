@@ -1,5 +1,5 @@
 import { fetchPokemon } from "./pokeapiClient";
-import { PokemonFailure, Pokemon } from "./types";
+import { FetchPokemonFailure, Pokemon } from "./types";
 
 import { Result } from "src/utility";
 
@@ -30,7 +30,7 @@ describe("pokeapiClient", () => {
     });
 
     describe("When fetching pokemon data", () => {
-      let response: Result<Pokemon, PokemonFailure>;
+      let response: Result<Pokemon, FetchPokemonFailure>;
 
       beforeEach(async () => {
         response = await fetchPokemon("pikachu");
@@ -61,7 +61,7 @@ describe("pokeapiClient", () => {
     });
 
     describe("When fetching pokemon data", () => {
-      let response: Result<Pokemon, PokemonFailure>;
+      let response: Result<Pokemon, FetchPokemonFailure>;
 
       beforeEach(async () => {
         response = await fetchPokemon("pikachu");
@@ -73,7 +73,7 @@ describe("pokeapiClient", () => {
       });
 
       test("Then failure should be NotFound", () => {
-        expect(response.failure).toBe(PokemonFailure.NotFound);
+        expect(response.failure).toBe(FetchPokemonFailure.NotFound);
       });
     });
   });

@@ -1,4 +1,4 @@
-import { Pokemon, PokemonApiResponse, PokemonFailure } from "./types";
+import { Pokemon, PokemonApiResponse, FetchPokemonFailure } from "./types";
 
 import { Result } from "src/utility";
 
@@ -6,18 +6,18 @@ import axios, { AxiosError } from "axios";
 
 export const fetchPokemon = async (
   pokemonName: string
-): Promise<Result<Pokemon, PokemonFailure>> => {
+): Promise<Result<Pokemon, FetchPokemonFailure>> => {
   try {
     const response = await axios.get<PokemonApiResponse>(
       `https://pokeapi.co/api/v2/pokemon-species/${pokemonName}`
     );
-    return new Result<Pokemon, PokemonFailure>({
+    return new Result<Pokemon, FetchPokemonFailure>({
       success: mapResult(response.data),
     });
   } catch (error: unknown | AxiosError) {
     if (axios.isAxiosError(error)) {
-      return new Result<Pokemon, PokemonFailure>({
-        failure: PokemonFailure.NotFound,
+      return new Result<Pokemon, FetchPokemonFailure>({
+        failure: FetchPokemonFailure.NotFound,
       });
     }
 

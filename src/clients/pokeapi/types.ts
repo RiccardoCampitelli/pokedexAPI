@@ -23,6 +23,6 @@ export interface Pokemon {
   isLegendary: boolean;
 }
 
-export enum PokemonFailure {
+export enum FetchPokemonFailure {
   NotFound,
 }
