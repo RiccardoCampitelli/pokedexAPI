@@ -18,3 +18,7 @@ To be able to run this you will need to have the following installed:
 - npm run docker:run
 
 Things I would improve:
+
+- Add some sort of DI
+- Move clients into different package and install them as dependencies
+

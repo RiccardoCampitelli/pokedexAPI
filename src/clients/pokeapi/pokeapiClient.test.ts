@@ -1,7 +1,6 @@
 import { fetchPokemon } from "./pokeapiClient";
-import { PokemonFailure } from "./failures";
+import { PokemonFailure, Pokemon } from "./types";
 
-import { PokemonApiResponse } from "./interfaces";
 import { Result } from "src/utility";
 
 import nock from "nock";
@@ -31,7 +30,7 @@ describe("pokeapiClient", () => {
     });
 
     describe("When fetching pokemon data", () => {
-      let response: Result<PokemonApiResponse, PokemonFailure>;
+      let response: Result<Pokemon, PokemonFailure>;
 
       beforeEach(async () => {
         response = await fetchPokemon("pikachu");
@@ -41,8 +40,15 @@ describe("pokeapiClient", () => {
         expect(response.isSuccess).toBe(true);
       });
 
-      test("Then success should contain returned json", () => {
-        expect(response.success).toEqual(defaultPokeApiResponse);
+      test("Then success should be mapped correctly", () => {
+        const expectedResponse: Pokemon = {
+          description: "hello",
+          habitat: "forest",
+          isLegendary: false,
+          name: "pikachu",
+        };
+
+        expect(response.success).toEqual(expectedResponse);
       });
     });
   });
@@ -55,7 +61,7 @@ describe("pokeapiClient", () => {
     });
 
     describe("When fetching pokemon data", () => {
-      let response: Result<PokemonApiResponse, PokemonFailure>;
+      let response: Result<Pokemon, PokemonFailure>;
 
       beforeEach(async () => {
         response = await fetchPokemon("pikachu");
