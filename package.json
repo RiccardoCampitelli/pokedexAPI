@@ -1,11 +1,13 @@
 {
-  "name": "truelayer",
+  "name": "pokemonapi",
   "version": "1.0.0",
   "description": "",
   "scripts": {
     "test": "jest",
     "transpile": "tsc",
-    "start": "nodemon"
+    "start": "nodemon",
+    "docker:build": "docker build . -t pokemonapi",
+    "docker:run": "docker run -p 5001:5000 -d pokemonapi"
   },
   "keywords": [],
   "author": "",
