@@ -1,1 +1,2 @@
-export * from './pokeapi'
+export * from "./pokeapi";
+export * from "./funtranslations";

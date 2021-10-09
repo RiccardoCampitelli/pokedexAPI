@@ -4,7 +4,7 @@ import { Result } from "src/utility";
 
 import axios, { AxiosError } from "axios";
 
-export const fetchPokemon = async (
+export const fetchPokemonAsync = async (
   pokemonName: string
 ): Promise<Result<Pokemon, FetchPokemonFailure>> => {
   try {
@@ -16,7 +16,7 @@ export const fetchPokemon = async (
       success: mapResult(response.data),
     });
   } catch (error: unknown | AxiosError) {
-    if (axios.isAxiosError(error)) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
       return new Result<Pokemon, FetchPokemonFailure>({
         failure: FetchPokemonFailure.NotFound,
       });
@@ -26,14 +26,21 @@ export const fetchPokemon = async (
   }
 };
 
+const findEscapedCharacters = new RegExp(/(\n|\f)/g);
+
 const mapResult = (response: PokemonApiResponse): Pokemon => {
-  return {
+  const mappedResult: Partial<Pokemon> = {
     habitat: response.habitat.name,
     isLegendary: response.is_legendary,
     name: response.name,
-    description:
-      response.flavor_text_entries.find(
-        (flavorText) => flavorText.language.name === "en"
-      )?.flavor_text ?? "",
   };
+
+  const description =
+    response.flavor_text_entries.find(
+      (flavorText) => flavorText.language.name === "en"
+    )?.flavor_text ?? "";
+
+  const unescapedDescription = description.replace(findEscapedCharacters, " ");
+
+  return { ...mappedResult, description: unescapedDescription } as Pokemon;
 };

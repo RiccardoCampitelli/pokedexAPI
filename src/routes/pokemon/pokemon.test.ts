@@ -8,6 +8,7 @@ import nock from "nock";
 
 describe("pokemon routes", () => {
   let app: Express;
+  
   beforeAll(() => {
     app = express();
     app.use(pokemonRouter);
@@ -15,7 +16,7 @@ describe("pokemon routes", () => {
 
   beforeEach(() => {
     // We are blocking all requests to non mocked endpoints in our setupTests
-    // This enables us to bypass to test our handlers.
+    // This enables us to bypass the block to test our handlers.
     nock.enableNetConnect("127.0.0.1");
   });
 
@@ -24,7 +25,7 @@ describe("pokemon routes", () => {
       beforeEach(() => {
         nock("https://pokeapi.co/api/v2/pokemon-species")
           .get("/pikachu")
-          .reply(400);
+          .reply(404);
       });
 
       test("Then response should be 404 not found", async () => {

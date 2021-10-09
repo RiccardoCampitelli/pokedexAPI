@@ -1,4 +1,4 @@
-import { fetchPokemon } from "./pokeapiClient";
+import { fetchPokemonAsync } from "./pokeapiClient";
 import { FetchPokemonFailure, Pokemon } from "./types";
 
 import { Result } from "src/utility";
@@ -18,7 +18,7 @@ describe("pokeapiClient", () => {
       let response: Result<Pokemon, FetchPokemonFailure>;
 
       beforeEach(async () => {
-        response = await fetchPokemon("pikachu");
+        response = await fetchPokemonAsync("pikachu");
       });
 
       test("Then response should be success", () => {
@@ -31,18 +31,18 @@ describe("pokeapiClient", () => {
     });
   });
 
-  describe("Given a 400 response from the pokeapi", () => {
+  describe("Given a 404 response from the pokeapi", () => {
     beforeEach(() => {
       nock("https://pokeapi.co/api/v2/pokemon-species")
         .get("/pikachu")
-        .reply(400, {});
+        .reply(404);
     });
 
     describe("When fetching pokemon data", () => {
       let response: Result<Pokemon, FetchPokemonFailure>;
 
       beforeEach(async () => {
-        response = await fetchPokemon("pikachu");
+        response = await fetchPokemonAsync("pikachu");
       });
 
       test("Then response should not be success", () => {
@@ -51,6 +51,22 @@ describe("pokeapiClient", () => {
 
       test("Then failure should be NotFound", () => {
         expect(response.failure).toBe(FetchPokemonFailure.NotFound);
+      });
+    });
+  });
+
+  describe("Given a 500 response from the pokeapi", () => {
+    beforeEach(() => {
+      nock("https://pokeapi.co/api/v2/pokemon-species")
+        .get("/pikachu")
+        .reply(500);
+    });
+
+    describe("When fetching pokemon data", () => {
+      test("Then an error should be thrown", async () => {
+        await expect(
+          async () => await fetchPokemonAsync("pikachu")
+        ).rejects.toThrow();
       });
     });
   });

@@ -1,4 +1,4 @@
-import { fetchPokemon, FetchPokemonFailure, Pokemon } from "src/clients";
+import { fetchPokemonAsync, FetchPokemonFailure, Pokemon } from "src/clients";
 import { Result } from "src/utility";
 
 export enum GetPokemonFailure {
@@ -8,7 +8,7 @@ export enum GetPokemonFailure {
 export const getPokemonHandler = async (
   pokemonName: string
 ): Promise<Result<Pokemon, GetPokemonFailure>> => {
-  const getPokemonResult = await fetchPokemon(pokemonName);
+  const getPokemonResult = await fetchPokemonAsync(pokemonName);
 
   if (getPokemonResult.isSuccess === false) {
     return new Result<Pokemon, GetPokemonFailure>({

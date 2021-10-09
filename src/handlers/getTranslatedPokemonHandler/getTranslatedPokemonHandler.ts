@@ -1,4 +1,9 @@
-import { fetchPokemon, Pokemon } from "src/clients";
+import {
+  fetchPokemonAsync,
+  Pokemon,
+  translateTextAsync,
+  TranslationType,
+} from "src/clients";
 import { Result } from "src/utility";
 
 export enum GetTranslatedPokemonQueryFailure {
@@ -8,7 +13,7 @@ export enum GetTranslatedPokemonQueryFailure {
 export const getTranslatedPokemonHandler = async (
   pokemonName: string
 ): Promise<Result<Pokemon, GetTranslatedPokemonQueryFailure>> => {
-  const getPokemonResult = await fetchPokemon(pokemonName);
+  const getPokemonResult = await fetchPokemonAsync(pokemonName);
 
   if (getPokemonResult.isSuccess === false) {
     return new Result<Pokemon, GetTranslatedPokemonQueryFailure>({
@@ -16,7 +21,38 @@ export const getTranslatedPokemonHandler = async (
     });
   }
 
+  const pokemon = getPokemonResult.success;
+
+  const translationType = getTranslationType(pokemon);
+
+  const translatedResponse = await translateTextAsync(
+    pokemon.description,
+    translationType
+  );
+
+  let description = pokemon.description;
+
+  if (translatedResponse.isSuccess) {
+    description = translatedResponse.success;
+  }
+
   return new Result<Pokemon, GetTranslatedPokemonQueryFailure>({
-    success: getPokemonResult.success as Pokemon,
+    success: {
+      ...pokemon,
+      description: description,
+    },
   });
+};
+
+const getTranslationType = ({
+  habitat,
+  isLegendary,
+}: Pokemon): TranslationType => {
+  const isHabitatCave = habitat === "cave";
+
+  if (isHabitatCave || isLegendary) {
+    return TranslationType.Yoda;
+  }
+
+  return TranslationType.Shakespeare;
 };
