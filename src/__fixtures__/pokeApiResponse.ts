@@ -6,7 +6,7 @@ export const defaultPokeApiResponse = {
   name: "pikachu",
   flavor_text_entries: [
     {
-      flavor_text: "hello",
+      flavor_text: "hello\nworld",
       language: {
         name: "en",
       },
@@ -15,7 +15,7 @@ export const defaultPokeApiResponse = {
 };
 
 export const mappedResponse = {
-  description: "hello",
+  description: "hello world",
   habitat: "forest",
   isLegendary: false,
   name: "pikachu",
