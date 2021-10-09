@@ -21,4 +21,5 @@ To be able to run this you will need to have the following installed:
 
 - Add DI
 - Move clients into different package and install them as dependencies
-- Enable urls to be config driven
+- Add configuration section to allow changes to urls, secrets, feature flags etc.
+- Add functional tests
