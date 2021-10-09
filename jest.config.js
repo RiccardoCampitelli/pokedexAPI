@@ -5,6 +5,6 @@ module.exports = {
   moduleNameMapper: {
     "src/(.*)": "<rootDir>/src/$1",
   },
-  setupFilesAfterEnv: ["./setupTests.ts", "jest-extended"],
+  setupFilesAfterEnv: ["./setupTests.ts"],
   globalTeardown: "./test-teardown-globals.js",
 };
