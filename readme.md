@@ -21,4 +21,4 @@ Things I would improve:
 
 - Add some sort of DI
 - Move clients into different package and install them as dependencies
-
+- Enable urls to be config driven

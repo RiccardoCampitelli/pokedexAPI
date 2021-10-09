@@ -2,12 +2,12 @@ import { fetchPokemonAsync } from "./pokeapiClient";
 import { FetchPokemonFailure, Pokemon } from "./types";
 
 import { Result } from "src/utility";
-import { defaultPokeApiResponse, mappedResponse } from "src/__fixtures__";
+import { defaultPokeApiResponse, mappedApiResponse } from "src/__fixtures__";
 
 import nock from "nock";
 
 describe("pokeapiClient", () => {
-  describe("Given a 200 response from the pokeapi", () => {
+  describe("Given a successful response from the pokeapi", () => {
     beforeEach(() => {
       nock("https://pokeapi.co/api/v2/pokemon-species")
         .get("/pikachu")
@@ -26,12 +26,12 @@ describe("pokeapiClient", () => {
       });
 
       test("Then success should be mapped correctly", () => {
-        expect(response.success).toEqual(mappedResponse);
+        expect(response.success).toEqual(mappedApiResponse);
       });
     });
   });
 
-  describe("Given a 404 response from the pokeapi", () => {
+  describe("Given a notFound response from the pokeapi", () => {
     beforeEach(() => {
       nock("https://pokeapi.co/api/v2/pokemon-species")
         .get("/pikachu")
@@ -55,7 +55,7 @@ describe("pokeapiClient", () => {
     });
   });
 
-  describe("Given a 500 response from the pokeapi", () => {
+  describe("Given an error response from the pokeapi", () => {
     beforeEach(() => {
       nock("https://pokeapi.co/api/v2/pokemon-species")
         .get("/pikachu")

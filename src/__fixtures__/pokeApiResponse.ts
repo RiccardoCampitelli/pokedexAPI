@@ -14,7 +14,7 @@ export const defaultPokeApiResponse = {
   ],
 };
 
-export const mappedResponse = {
+export const mappedApiResponse = {
   description: "hello world",
   habitat: "forest",
   isLegendary: false,

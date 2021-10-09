@@ -21,7 +21,7 @@ pokemonRouter.get("/pokemon/translated/:pokemonName", async (req, res) => {
   let getPokemonQueryResult = await getTranslatedPokemonHandler(pokemonName);
 
   if (getPokemonQueryResult.isSuccess === false) {
-    return res.status(404);
+    return res.status(404).send();
   }
 
   res.send({ ...getPokemonQueryResult.success });

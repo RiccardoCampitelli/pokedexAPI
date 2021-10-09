@@ -6,18 +6,18 @@ import {
 } from "src/clients";
 import { Result } from "src/utility";
 
-export enum GetTranslatedPokemonQueryFailure {
+export enum GetTranslatedPokemonFailure {
   NotFound,
 }
 
 export const getTranslatedPokemonHandler = async (
   pokemonName: string
-): Promise<Result<Pokemon, GetTranslatedPokemonQueryFailure>> => {
+): Promise<Result<Pokemon, GetTranslatedPokemonFailure>> => {
   const getPokemonResult = await fetchPokemonAsync(pokemonName);
 
   if (getPokemonResult.isSuccess === false) {
-    return new Result<Pokemon, GetTranslatedPokemonQueryFailure>({
-      failure: GetTranslatedPokemonQueryFailure.NotFound,
+    return new Result<Pokemon, GetTranslatedPokemonFailure>({
+      failure: GetTranslatedPokemonFailure.NotFound,
     });
   }
 
@@ -36,7 +36,7 @@ export const getTranslatedPokemonHandler = async (
     description = translatedResponse.success;
   }
 
-  return new Result<Pokemon, GetTranslatedPokemonQueryFailure>({
+  return new Result<Pokemon, GetTranslatedPokemonFailure>({
     success: {
       ...pokemon,
       description: description,
